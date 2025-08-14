@@ -1,29 +1,25 @@
-package com.board.basic.article;
+package com.board.basic.answer;
 
-import com.board.basic.answer.Answer;
+import com.board.basic.article.Article;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
-@Entity
 @Getter
 @Setter
-public class Article {
+@Entity
+public class Answer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
-    @Column(length = 200)
-    private String title;
 
     @Column(columnDefinition = "TEXT")
     private String content;
 
     private LocalDateTime createDate;
 
-    @OneToMany(mappedBy = "article", cascade = CascadeType.REMOVE)
-    private List<Answer> answerList;
+    @ManyToOne
+    private Article article;
 }
