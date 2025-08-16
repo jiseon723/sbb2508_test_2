@@ -1,8 +1,8 @@
 package com.board.basic.article;
 
+import com.board.basic.answer.AnswerForm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,7 +34,7 @@ public class ArticleController {
     }
 
     @GetMapping("/detail/{id}")
-    public String detail(Model model, @PathVariable("id") Integer id) {
+    public String detail(Model model, @PathVariable("id") Integer id, AnswerForm answerForm) {
         Article article = this.articleService.getArticle(id);
         model.addAttribute("article", article);
         return "article_detail";

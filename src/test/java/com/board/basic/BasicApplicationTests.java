@@ -4,6 +4,7 @@ import com.board.basic.answer.Answer;
 import com.board.basic.answer.AnswerRepository;
 import com.board.basic.article.Article;
 import com.board.basic.article.ArticleRepository;
+import com.board.basic.article.ArticleService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -24,6 +25,9 @@ class BasicApplicationTests {
 
 	@Autowired
 	private AnswerRepository answerRepository;
+
+	@Autowired
+	private ArticleService articleService;
 
 	@Test
 	void testJpa01() {
@@ -129,5 +133,14 @@ class BasicApplicationTests {
 
 		assertEquals(1, answerList.size());
 		assertEquals("네 자동으로 생성됩니다.", answerList.get(0).getContent());
+	}
+
+	@Test
+	void testJpa12() {
+		for (int i = 1; i <= 300; i++) {
+			String title = String.format("테스트 데이터입니다:[%03d]", i);
+			String content = "내용무";
+			this.articleService.create(title, content);
+		}
 	}
 }

@@ -2,13 +2,14 @@ package com.board.basic.answer;
 
 import com.board.basic.article.Article;
 import com.board.basic.article.ArticleService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @RequestMapping("/article")
 @RequiredArgsConstructor
@@ -19,9 +20,13 @@ public class AnswerController {
     private final AnswerService answerService;
 
     @PostMapping("/create/{id}")
-    public String createAnswer(Model model, @PathVariable("id") Integer id, @RequestParam(value="content") String content) {
+    public String createAnswer(Model model, @PathVariable("id") Integer id, @Valid AnswerForm answerForm, BindingResult bindingResult) {
         Article article = this.articleService.getArticle(id);
-        this.answerService.create(article, content);
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("article", article);
+            return "article_detail";
+        }
+        this.answerService.create(article, answerForm.getContent());
         return String.format("redirect:/article/detail/%s", id);
     }
 }
