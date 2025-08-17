@@ -140,7 +140,7 @@ class BasicApplicationTests {
 		for (int i = 1; i <= 300; i++) {
 			String title = String.format("테스트 데이터입니다:[%03d]", i);
 			String content = "내용무";
-			this.articleService.create(title, content);
+			this.articleService.create(title, content, null);
 		}
 	}
 }

@@ -1,11 +1,13 @@
 package com.board.basic.answer;
 
 import com.board.basic.article.Article;
+import com.board.basic.user.SiteUser;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -22,4 +24,12 @@ public class Answer {
 
     @ManyToOne
     private Article article;
+
+    @ManyToOne
+    private SiteUser author;
+
+    private LocalDateTime modifyDate;
+
+    @ManyToMany
+    Set<SiteUser> voter;
 }
