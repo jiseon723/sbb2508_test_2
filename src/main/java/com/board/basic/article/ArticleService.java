@@ -33,11 +33,12 @@ public class ArticleService {
         return article.get();
     }
 
-    public void create(String title, String content) {
+    public void create(String title, String content, SiteUser author) {
         Article article = new Article();
         article.setTitle(title);
         article.setContent(content);
         article.setCreateDate(LocalDateTime.now());
+        article.setAuthor(author);
         this.articleRepository.save(article);
     }
 

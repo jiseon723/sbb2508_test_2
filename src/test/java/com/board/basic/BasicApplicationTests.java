@@ -5,6 +5,8 @@ import com.board.basic.answer.AnswerRepository;
 import com.board.basic.article.Article;
 import com.board.basic.article.ArticleRepository;
 import com.board.basic.article.ArticleService;
+import com.board.basic.user.SiteUser;
+import com.board.basic.user.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -29,18 +31,28 @@ class BasicApplicationTests {
 	@Autowired
 	private ArticleService articleService;
 
+	@Autowired
+	private UserRepository userRepository;
+
 	@Test
 	void testJpa01() {
+		SiteUser testUser = new SiteUser();
+		testUser.setUsername("testuser");
+		testUser.setPassword("password");
+		userRepository.save(testUser);
+
 		Article q1 = new Article();
 		q1.setTitle("sbb가 무엇인가요?");
 		q1.setContent("sbb에 대해서 알고 싶습니다.");
 		q1.setCreateDate(LocalDateTime.now());
+		q1.setAuthor(testUser);
 		this.articleRepository.save(q1);  // 첫번째 질문 저장
 
 		Article q2 = new Article();
 		q2.setTitle("스프링부트 모델 질문입니다.");
 		q2.setContent("id는 자동으로 생성되나요?");
 		q2.setCreateDate(LocalDateTime.now());
+		q1.setAuthor(testUser);
 		this.articleRepository.save(q2);  // 두번째 질문 저장
 	}
 
@@ -137,10 +149,17 @@ class BasicApplicationTests {
 
 	@Test
 	void testJpa12() {
+		SiteUser testUser = userRepository.findByUsername("testuser")
+				.orElseGet(() -> {
+					SiteUser u = new SiteUser();
+					u.setUsername("testuser");
+					u.setPassword("password");
+					return userRepository.save(u);
+				});
 		for (int i = 1; i <= 300; i++) {
 			String title = String.format("테스트 데이터입니다:[%03d]", i);
 			String content = "내용무";
-			this.articleService.create(title, content, null);
+			this.articleService.create(title, content, testUser);
 		}
 	}
 }

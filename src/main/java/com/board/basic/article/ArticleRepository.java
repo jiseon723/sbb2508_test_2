@@ -26,6 +26,6 @@ public interface ArticleRepository extends JpaRepository<Article, Integer> {
             + "   A.title like %:keyword% "
             + "   or A.content like %:keyword% "
             + "   or U.username like %:keyword% ")
-    List<Article> findAllByKeyword(@Param("keyword") String keyword);
+    Page<Article> findAllByKeyword(@Param("keyword") String keyword, Pageable pageable);
 
 }

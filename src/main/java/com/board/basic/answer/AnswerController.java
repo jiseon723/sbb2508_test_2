@@ -16,7 +16,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.security.Principal;
 
-@RequestMapping("/article")
+@RequestMapping("/answer")
 @RequiredArgsConstructor
 @Controller
 public class AnswerController {

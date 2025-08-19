@@ -16,7 +16,7 @@ public class AnswerService {
     private final AnswerRepository answerRepository;
 
 
-    public void create(Article article, String content, SiteUser author) {
+    public Answer create(Article article, String content, SiteUser author) {
         Answer answer = new Answer();
         answer.setContent(content);
         answer.setArticle(article);
