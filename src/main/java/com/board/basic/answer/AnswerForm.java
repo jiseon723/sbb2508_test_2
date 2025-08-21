@@ -3,7 +3,9 @@ package com.board.basic.answer;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
+@ToString
 @Getter
 @Setter
 public class AnswerForm {

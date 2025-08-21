@@ -31,13 +31,6 @@ public class ArticleController {
         return "article_list";
     }
 
-    @GetMapping(value = "/detail/{id}")
-    public String getArticle(Model model, @PathVariable("id") Integer id, AnswerForm answerForm) {
-        Article article = this.articleService.getArticle(id);
-        model.addAttribute("article", article);
-        return "article_detail";
-    }
-
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/create")
     public String articleCreate(ArticleForm articleForm) {
@@ -69,7 +62,8 @@ public class ArticleController {
 
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/modify/{id}")
-    public String articleModify(@Valid ArticleForm articleForm, BindingResult bindingResult, Principal principal, @PathVariable("id") Integer id) {
+    public String articleModify(@Valid ArticleForm articleForm, BindingResult bindingResult,
+                                 Principal principal, @PathVariable("id") Integer id) {
         if (bindingResult.hasErrors()) {
             return "article_form";
         }
@@ -79,6 +73,13 @@ public class ArticleController {
         }
         this.articleService.modify(article, articleForm.getTitle(), articleForm.getContent());
         return String.format("redirect:/article/detail/%s", id);
+    }
+
+    @GetMapping(value = "/detail/{id}")
+    public String getArticle(Model model, @PathVariable("id") Integer id, AnswerForm answerForm) {
+        Article article = this.articleService.getArticle(id);
+        model.addAttribute("article", article);
+        return "article_detail";
     }
 
     @PreAuthorize("isAuthenticated()")
